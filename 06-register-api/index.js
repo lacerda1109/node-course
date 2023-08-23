@@ -2,25 +2,26 @@
 const express = require("express");
 const app = express();
 
-// Database connection
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize("sequelize_test", "root", "root30gab", {
-  host: "localhost",
-  dialect: "mysql",
-});
-
 // Body-parser config
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Routes
-app.get("/", (req, res) => {
-  res.send("Root route!");
-});
+// Models
+const User = require("./models/User");
 
-app.post("/create-user", (req, res) => {
-  res.send(req.body);
+// Routes
+app.post("/register-user", (req, res) => {
+  const body = req.body;
+
+  User.create({
+    firstName: body.firstName,
+    lastName: body.lastName,
+    age: body.age,
+    email: body.email,
+  })
+    .then(() => res.send("Success!"))
+    .catch((err) => res.send(`Error: ${err}`));
 });
 
 app.listen(8081, () => console.log("Server running..."));
