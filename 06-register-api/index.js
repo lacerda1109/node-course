@@ -11,7 +11,13 @@ app.use(bodyParser.json());
 const User = require("./models/User");
 
 // Routes
-app.post("/register-user", (req, res) => {
+app.get("/user", (req, res) => {
+  User.findAll({
+    order: [["createdAt", "DESC"]],
+  }).then((response) => res.send(response));
+});
+
+app.post("/user", (req, res) => {
   const body = req.body;
 
   User.create({
