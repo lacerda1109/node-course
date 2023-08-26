@@ -38,6 +38,21 @@ app.post("/user", (req, res) => {
     .catch((err) => res.send(`Error: ${err}`));
 });
 
+app.put("/user/:id", (req, res) => {
+  const body = req.body;
+  User.update(
+    {
+      firstName: body.firstName,
+      lastName: body.lastName,
+      age: body.age,
+      email: body.email,
+    },
+    { where: { id: req.params.id } }
+  )
+    .then(() => res.send("Success!"))
+    .catch((err) => res.send(`Error: ${err}`));
+});
+
 app.delete("/user/:id", (req, res) => {
   User.destroy({
     where: {
