@@ -17,6 +17,14 @@ app.get("/user", (req, res) => {
   }).then((response) => res.send(response));
 });
 
+app.get("/user/:id", (req, res) => {
+  User.findAll({
+    where: {
+      id: req.params.id,
+    },
+  }).then((response) => res.send(response));
+});
+
 app.post("/user", (req, res) => {
   const body = req.body;
 
@@ -25,6 +33,16 @@ app.post("/user", (req, res) => {
     lastName: body.lastName,
     age: body.age,
     email: body.email,
+  })
+    .then(() => res.send("Success!"))
+    .catch((err) => res.send(`Error: ${err}`));
+});
+
+app.delete("/user/:id", (req, res) => {
+  User.destroy({
+    where: {
+      id: req.params.id,
+    },
   })
     .then(() => res.send("Success!"))
     .catch((err) => res.send(`Error: ${err}`));
